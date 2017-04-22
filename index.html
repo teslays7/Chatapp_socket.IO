@@ -78,14 +78,14 @@
           var $username = $('#username');
           var $userFormArea = $('#userFormArea');
           var $userForm = $('#userForm');
-        
+
           $messageForm.submit(function(e){
             e.preventDefault();
             if($message.val()!="" && $.trim($message.val())!= ''){
             socket.emit('send message',$message.val());
             $message.val(" ");
             $chat.animate({
-            scrollTop: $('#chat')[0].scrollHeight}, 1500);
+            scrollTop: $('#chat')[0].scrollHeight}, 2000);
           }
           });
 
