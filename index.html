@@ -10,9 +10,21 @@
   body{
     margin-top: 30px;
   }
+
   #messageArea{
     display: none;
   }
+
+  #messageForm{
+    position: fixed;
+    bottom: 10px;
+    width: 60%;
+  }
+
+  #users_online{
+    left: 0px;
+  }
+
 </style>
   </head>
   <body>
@@ -30,7 +42,7 @@
           </div>
         </div>
         <div id="messageArea" class="row">
-          <div class="col-md-4">
+          <div class="col-md-4" id="users_online">
             <div class="well">
               <h3>Online Users</h3>
               <ul class="list-group" id="users">
@@ -39,8 +51,7 @@
             </div>
           </div>
           <div class="col-md-8">
-              <div class="chat" id="chat">
-
+              <div class="chat" id="chat" style="overflow:scroll; height:540px;">
               </div>
               <form id="messageForm">
                 <div class="form-group">
@@ -57,6 +68,7 @@
       </div>
       <script>
         $(function(){
+
           var socket= io.connect();
           var $messageForm= $('#messageForm');
           var $message= $('#message');
@@ -66,12 +78,15 @@
           var $username = $('#username');
           var $userFormArea = $('#userFormArea');
           var $userForm = $('#userForm');
-
-
+        
           $messageForm.submit(function(e){
             e.preventDefault();
+            if($message.val()!="" && $.trim($message.val())!= ''){
             socket.emit('send message',$message.val());
             $message.val(" ");
+            $chat.animate({
+            scrollTop: $('#chat')[0].scrollHeight}, 1500);
+          }
           });
 
           socket.on('new message',function(data){
@@ -101,6 +116,8 @@
             }
             $users.html(html);
           });
+
+
         });
 
       </script>
